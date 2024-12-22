@@ -1,5 +1,5 @@
 <?php
-
+namespace App;
 class Product
 {
     public $name;
@@ -13,5 +13,17 @@ class Product
     function getProduct()
     {
         return $this->name . ": $" . $this->price;
+    }
+
+    public static function searchByName($products, $name)
+    {
+        foreach ($products as $product)
+        {
+            if (strcasecmp($product->name, $name) == 0)
+            {
+                return $product;
+            }
+        }
+        return null;
     }
 }

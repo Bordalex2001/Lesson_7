@@ -1,4 +1,5 @@
 <?php
+use App\Product;
 require_once __DIR__ . '/vendor/autoload.php';
 
 session_start();
@@ -19,6 +20,13 @@ if(isset($_POST['add']))
 }
 
 $products = $_SESSION['products'];
+
+$found_products = null;
+if(isset($_GET['search_btn']))
+{
+    $search_name = $_GET['search'];
+    $found_products = Product::searchByName($_SESSION['products'], $search_name);
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,5 +54,12 @@ $products = $_SESSION['products'];
     <input type="text" name="search" placeholder="Search">
     <input type="submit" name="search_btn" value="Search">
 </form>
+    <?php if(isset($_GET['search'])): ?>
+        <?php if($found_products): ?>
+            <h3><?php echo $found_products->getProduct(); ?></h3>
+        <?php else: ?>
+            <h3>Product not found.</h3>
+        <?php endif; ?>
+    <?php endif; ?>
 </body>
 </html>
